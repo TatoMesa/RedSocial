@@ -1,0 +1,51 @@
+<article class="w-100">
+  <div class="bg-white border mt-2">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center p-2 border-bottom">
+      <div class="d-flex align-items-center px-2">
+        <img
+          class="rounded-circle"
+          src="{{ post.user.profile.profile_picture.url }}"
+          width="45"
+          height="45"
+        />
+        <div class="d-flex flex-column ms-2">
+          <span class="fw-bold"> {{ post.user.username }} </span>
+          <span class="text-muted small"> {{ post.created_at }} </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Image -->
+    <div class="p-2 px-3">
+      <img class="img-fluid w-100" src="{{ post.image.url }}" />
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-2">
+      {% if request.user.is_authenticated %}
+      <div class="d-flex justify-content-center align-items-center gap-3">
+        <a
+          href="{% url 'post_like_ajax' post.pk %}"
+          class="likeButton d-flex align-items-center gap-1 text-decoration-none">
+          <span>{{ post.likes.all.count }}</span>
+          {% if request.user in post.likes.all %}
+          <i class="bi bi-heart-fill"></i>
+          {% else %}
+          <i class="bi bi-heart"></i>
+          {% endif %}
+        </a>
+        <p class="mb-0 d-flex align-items-center gap-1">
+          {{ post.comments.all.count }}
+          <i class="bi bi-chat-dots"></i>
+        </p>
+        <a
+          href="{% url 'post_detail' post.pk %}"
+          class="btn btn-primary btn-sm">
+          Ver post
+        </a>
+      </div>
+      {% endif %}
+    </footer>
+  </div>
+</article>

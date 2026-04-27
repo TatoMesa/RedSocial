@@ -1,0 +1,86 @@
+{% extends "general/layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}Bielvenidos RedSocial{% endblock %}
+
+{% block page_content %}
+<div class="container">
+    <h1 class="mb-4">Detalle de la publicación</h1>
+    <div class="row">
+        <article class="col-md-4">
+            <div class="bg-white border mt-2">
+                <div class="d-flex justify-content-between align-items-center p-2 border-bottom">
+                    <div class="d-flex align-items-center px-2">
+                        <img 
+                            class="rounded-circle" 
+                            src="{{ post.user.profile.profile_picture.url }}" 
+                            width="45" height="45">
+                        <div class="d-flex flex-column ms-2">
+                            <span class="fw-bold">
+                                {{ post.user.username }}
+                            </span>
+                            <span class="text-muted small">
+                                {{ post.created_at }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-2 px-3">
+                    <span>{{ post.caption }}</span>
+                </div>
+                <div class="p-2 px-3">
+                    <img class="img-fluid w-100" 
+                         src="{{ post.image.url }}">
+                </div>
+                <div class="text-center py-2">
+                {% if request.user.is_authenticated %}
+                    <p> 
+                        <a href="{% url 'post_like_ajax' post.pk %}" class="likeButton">
+                            <span>{{ post.likes.all.count }}</span>
+                            {% if request.user in post.likes.all %}
+                                <i class="bi bi-heart-fill"></i>
+                            {% else %}
+                                <i class="bi bi-heart"></i>
+                            {% endif%} 
+                        </a> 
+                    </p>
+                {% endif %}
+                </div>
+                <section class="comment p-2 px-3">
+                    <h5>Comentarios</h5>
+                    {% if post.comments.all.count %}
+                        {% for comment in post.comments.all %}
+                            <article>
+                                <header>
+                                    <strong>Autor: </strong>{{ comment.user }}
+                                    <strong>Creado el: </strong>{{ comment.created_at}}
+                                </header>
+                                <div>
+                                    <p>{{ comment.text}}</p>
+                                </div>
+                            </article>
+                        {% endfor %}
+                    {% else %}
+                        <p>Todavia no hay comentarios para esta publicacion</p>
+                    {% endif %}
+                    <div>
+                        <details>
+                            <summary>Nuevo comentario</summary>
+                            <form method="post" enctype="multipart/form-data">
+                                <div class="row">
+                                    {% csrf_token %}
+                                    {{form.text|as_crispy_field}}
+                                </div>
+                                <button class="btn btn-sm btn-primary">Publicar</button>
+                            </form>
+                        </details>
+                    </div>
+                </section>
+            </div>
+        </article>
+    </div>
+</div>
+
+
+
+{% endblock %}

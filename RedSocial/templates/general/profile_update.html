@@ -1,0 +1,19 @@
+{% extends "general/layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}Bielvenidos RedSocial{% endblock %}
+
+{% block page_content %}
+    <div class="container">
+        <h1>Editar perfil</h1>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                {{ form.bio|as_crispy_field }}
+                {{ form.profile_picture|as_crispy_field }}
+                {{ form.birth_date|as_crispy_field }}
+            </div>
+            <button class="btn btn-secondary">Actualizar</button>
+        </form>
+    </div>
+{% endblock %}

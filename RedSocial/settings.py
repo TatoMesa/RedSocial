@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 import os
+import dj_database_url
 
 from pathlib import Path
 from django.urls import reverse_lazy
@@ -24,7 +25,7 @@ TEMPLATES_DIR = BASE_DIR / "RedSocial" / "templates"
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-961&c&k9x(^fiz-k$i*3yubk*cgad^wu#y=qdimjzrsd_1@8d='
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-local-dev-key-123')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -89,10 +90,11 @@ WSGI_APPLICATION = 'RedSocial.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default = os.environ.get('DATABASE_URL'),
+        conn_mag_age = 600
+    )
+        
 }
 
 

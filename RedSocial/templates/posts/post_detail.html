@@ -29,8 +29,10 @@
                     <span>{{ post.caption }}</span>
                 </div>
                 <div class="p-2 px-3">
-                    <img class="img-fluid w-100" 
+                    {% if post.image %}
+                        <img class="img-fluid w-100" 
                          src="{{ post.image.url }}">
+                    {% endif %}
                 </div>
                 <div class="text-center py-2">
                 {% if request.user.is_authenticated %}

@@ -22,12 +22,15 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
+        last_posts = Post.objects.all().order_by('-created_at')[:15]
         if self.request.user.is_authenticated:
-            seguidos = Follow.objects.filter(follower=self.request.user.profile).values_list('following__user', flat=True)
-            last_posts = Post.objects.filter(user__profile__user__in=seguidos)
-        else:    
-            last_posts = Post.objects.all().order_by('-created_at')[:15]
+            if hasattr(self.request.user, 'profile'):
+                seguidos = Follow.objects.filter(
+                    follower=self.request.user.profile
+                ).values_list('following__user', flat=True)
+                last_posts = Post.objects.filter(
+                    user__in=seguidos
+                ).order_by('-created_at')[:15]
         context['last_posts'] = last_posts
         return context
 

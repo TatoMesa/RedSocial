@@ -7,24 +7,14 @@ class RegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
     class Meta:
         model = User
-        fields = [
+        fields = (
             "first_name",
             "username",
             "email",
-            "password",
-        ]
+            "password1",
+            "password2",
+        )
 
-    def save(self):
-        user = super().save(commit=True)
-        user.set_password(self.cleaned_data["password"])
-        user.save()
-
-        from profiles.models import UserProfile
-        UserProfile.objects.create(user=user)
-        
-
-        return user
-    
 class LoginForm(forms.Form):
     username = forms.CharField(label= 'Nombre de usuario')
     password = forms.CharField(label= 'Password', widget = forms.PasswordInput())

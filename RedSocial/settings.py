@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
 
-    'profiles',
+    'profiles.apps.ProfilesConfig',
     'posts',
     'notifications'
 ]

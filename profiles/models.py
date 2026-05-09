@@ -20,7 +20,7 @@ class UserProfile(models.Model):
         Follow.objects.get_or_create(follower=self, following=profile)
 
     def unfollow(self, profile):
-        if Follow.object.filter(follower=self, following=profile).count():
+        if Follow.objects.filter(follower=self, following=profile).count():
             Follow.objects.filter(follower=self, following=profile).delete()
             return True
         return False

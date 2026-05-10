@@ -155,6 +155,14 @@ LOGIN_URL = reverse_lazy('login')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Credenciales de Cloudinary
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dh9pi3ake',  # Sacado de tu mensaje
+    'API_KEY': '563434779864285', # Sacado de tu mensaje
+    'API_SECRET': 'TU_API_SECRET_AQUI', # Copia el 'API Secret' de tu panel de Cloudinary
+    'SECURE': True
+}
+
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
@@ -165,10 +173,3 @@ STORAGES = {
 }
 
 STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
-
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
-    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
-    'SECURE': True,
-}

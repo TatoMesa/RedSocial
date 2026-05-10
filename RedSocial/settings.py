@@ -37,14 +37,15 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'cloudinary_storage',         
+    'cloudinary',                
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'cloudinary_storage',
-    'django.contrib.staticfiles',
-    'cloudinary',
+    'django.contrib.staticfiles', 
+    
     'django_extensions',
     'crispy_forms',
     'crispy_bootstrap5',

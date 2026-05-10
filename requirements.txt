@@ -11,7 +11,7 @@ django-extensions==4.1
 gunicorn==26.0.0
 idna==3.13
 packaging==26.2
-pillow==12.1.1
+Pillow==12.1.1
 psycopg2-binary==2.9.12
 requests==2.33.1
 six==1.17.0

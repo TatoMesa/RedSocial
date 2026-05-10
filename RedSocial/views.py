@@ -142,7 +142,7 @@ class ProfileListView(ListView):
         queryset = queryset.exclude(user__is_superuser=True)
         # 2. Si el usuario está logueado, lo excluimos a él también para que no se vea a sí mismo
         if self.request.user.is_authenticated:
-        queryset = queryset.exclude(user=self.request.user)
+            queryset = queryset.exclude(user=self.request.user)
         return queryset
 
 @method_decorator(login_required, name='dispatch')

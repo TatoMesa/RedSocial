@@ -136,9 +136,14 @@ class ProfileListView(ListView):
     context_object_name = "profiles"
 
     def get_queryset(self):
+        # Empezamos con todos los perfiles
+        queryset = UserProfile.objects.all().order_by('user__username')
+        # 1. Excluimos SIEMPRE a los superusuarios (el admin)
+        queryset = queryset.exclude(user__is_superuser=True)
+        # 2. Si el usuario está logueado, lo excluimos a él también para que no se vea a sí mismo
         if self.request.user.is_authenticated:
-            return UserProfile.objects.all().order_by('user__username').exclude(user=self.request.user) 
-        return UserProfile.objects.all().order_by('user__username')
+        queryset = queryset.exclude(user=self.request.user)
+        return queryset
 
 @method_decorator(login_required, name='dispatch')
 class ProfileUpdateView(UpdateView):

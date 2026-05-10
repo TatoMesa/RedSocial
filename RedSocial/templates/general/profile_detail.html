@@ -11,6 +11,7 @@
         <p>Fecha de nacimiento: {{ profile.birth_date|default_if_none:"Sin rellenar" }}</p>
         <p>
             {% if profile.profile_picture %}
+                <p>La URL de mi imagen es: {{ user.profile.profile_picture.url }}</p>
                 <img class="img-fluid" style="width: 200px;" src="{{ profile.profile_picture.url }}" alt="Imagen de perfil">
             {% else %}
                 No dispone de foto de perfil

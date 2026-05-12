@@ -26,12 +26,6 @@ BASE_DIR = SETTINGS_DIR.parent
 env_path = BASE_DIR / '.env'
 load_dotenv(dotenv_path=env_path)
 
-print(f"\n--- CONFIGURACIÓN DE ENTORNO ---")
-print(f"Buscando .env en: {env_path}")
-print(f"Archivo existe?: {os.path.exists(env_path)}")
-print(f"Cloud Name: {os.environ.get('CLOUDINARY_CLOUD_NAME')}")
-print(f"-------------------------------\n")
-
 TEMPLATES_DIR = BASE_DIR / "RedSocial" / "templates"
 
 
@@ -39,7 +33,7 @@ TEMPLATES_DIR = BASE_DIR / "RedSocial" / "templates"
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-local-dev-key-123')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!

@@ -16,8 +16,22 @@ import dj_database_url
 from pathlib import Path
 from django.urls import reverse_lazy
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+from dotenv import load_dotenv
+
+
+SETTINGS_DIR = Path(__file__).resolve().parent
+
+BASE_DIR = SETTINGS_DIR.parent
+
+env_path = BASE_DIR / '.env'
+load_dotenv(dotenv_path=env_path)
+
+print(f"\n--- CONFIGURACIÓN DE ENTORNO ---")
+print(f"Buscando .env en: {env_path}")
+print(f"Archivo existe?: {os.path.exists(env_path)}")
+print(f"Cloud Name: {os.environ.get('CLOUDINARY_CLOUD_NAME')}")
+print(f"-------------------------------\n")
+
 TEMPLATES_DIR = BASE_DIR / "RedSocial" / "templates"
 
 
@@ -29,7 +43,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-local-dev-key-123')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -94,7 +108,8 @@ WSGI_APPLICATION = 'RedSocial.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        default=os.environ.get('DATABASE_URL', f'sqlite:///{os.path.join(BASE_DIR, "db.sqlite3")}'),
+        # default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
         conn_max_age=600
     )
 }
@@ -155,20 +170,34 @@ LOGIN_URL = reverse_lazy('login')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Credenciales de Cloudinary
+# 1. Credenciales (se cargan igual, pero en local fallarán silenciosamente si no hay .env)
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
     'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
     'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
 }
 
-STORAGES = {
-    "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.StaticFilesStorage",
-    },
-}
+# 2. Configuración dinámica de Almacenamiento
+if DEBUG:
+    # EN LOCAL: Guardamos en el disco duro (Carpeta media)
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
+else:
+    # EN PRODUCCIÓN (Render): Usamos Cloudinary y WhiteNoise
+    STORAGES = {
+        "default": {
+            "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.StaticFilesStorage",
+        },
+    }
 
+# Esto es para versiones viejas de Django o redundancia con WhiteNoise
 STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'

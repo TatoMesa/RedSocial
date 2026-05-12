@@ -43,10 +43,14 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-local-dev-key-123')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['*']
-
+ALLOWED_HOSTS = [
+    'redsocial-f0kx.onrender.com', # Dominio real en Render
+    'localhost', 
+    '127.0.0.1',
+    '.onrender.com',               # Esto permite cualquier subdominio de Render por si cambia el ID
+]
 
 # Application definition
 

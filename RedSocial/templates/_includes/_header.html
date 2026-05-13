@@ -1,21 +1,49 @@
 <header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
     <div class="container">
-        <h1>Red Social</h1>
-        <nav>
-            <ul>
-                <li><a href="{% url 'home' %}">Inicio</a></li>
-                <li><a href="{% url 'profile_list' %}">Perfiles</a></li>
-                {% if not request.user.is_authenticated %}
-                    <li><a href="{% url 'login' %}">Login</a></li>
-                    <li><a href="{% url 'register' %}">Registro</a></li>
-                {% endif %}
-                <li><a href="{% url 'contact' %}">Contacto</a></li>
-                {% if request.user.is_authenticated %}
-                    <li><a href="{% url 'post_create' %}">Publicar</a></li>
-                    <li><a href="{% url 'profile_detail' request.user.profile.pk %}">Mi perfil</a></li>
-                    <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
-                {% endif %}
-            </ul>
-        </nav>
+      <!-- Logo o Nombre de la Red -->
+      <a class="navbar-brand fw-bold" href="{% url 'home' %}">Red Social</a>
+
+      <!-- Botón para móviles (Hamburguesa) -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Contenedor de los links -->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'home' %}">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'profile_list' %}">Perfiles</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'contact' %}">Contacto</a>
+          </li>
+
+          {% if not request.user.is_authenticated %}
+            <!-- Links para usuarios NO logueados -->
+            <li class="nav-item border-start ms-lg-2 ps-lg-2">
+              <a class="nav-link text-white" href="{% url 'login' %}">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="btn btn-secondary btn-sm ms-lg-2" href="{% url 'register' %}">Registro</a>
+            </li>
+          {% else %}
+            <!-- Links para usuarios logueados -->
+            <li class="nav-item ms-lg-3">
+              <a class="btn btn-outline-light btn-sm" href="{% url 'post_create' %}">Publicar</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'profile_detail' request.user.profile.pk %}">Mi perfil</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-danger" href="{% url 'logout' %}">Cerrar sesión</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
     </div>
+  </nav>
 </header>

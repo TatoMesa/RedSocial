@@ -1,0 +1,62 @@
+.card-img-container {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    position: relative;
+    display: block;
+}
+
+.card-img-top-custom {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+/* Tip extra: sombra suave para las cards */
+.card {
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Efecto pro al pasar el mouse */
+}
+
+body {
+    background-color: #f8f9fa;
+    /* Gris muy claro tipo Instagram/Facebook */
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.main-container {
+    min-height: calc(100vh - 160px);
+    /* Asegura que el footer no flote en el medio si hay poco contenido */
+}
+
+.likeButton {
+    text-decoration: none;
+    color: black;
+}
+
+/* Contenedor circular para la lista de perfiles */
+.profile-img-container {
+    width: 120px;           /* Tamaño fijo para el círculo */
+    height: 120px;          /* Tamaño fijo para el círculo */
+    margin: 15px auto;      /* Centrado horizontal */
+    border-radius: 50%;     /* Lo hace redondo */
+    overflow: hidden;       /* CORTA lo que se salga del círculo */
+    border: 4px solid #f8f9fa;
+    display: flex;          /* Para centrar la imagen adentro */
+    align-items: center;
+    justify-content: center;
+    background-color: #eee;
+}
+
+/* La imagen dentro del círculo */
+.profile-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;      /* Crucial: llena el círculo sin estirarse */
+    display: block;
+}

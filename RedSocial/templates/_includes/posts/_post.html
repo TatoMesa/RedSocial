@@ -7,7 +7,7 @@
 
         {% if post.user.profile.profile_picture %}
           <img
-            class="rounded-circle"
+            class="rounded-circle me-2"
             src="{{ post.user.profile.profile_picture.url }}"
             width="45"
             height="45"
@@ -15,7 +15,7 @@
         {% endif %}
 
         <div class="d-flex flex-column ms-2">
-          <span class="fw-bold">
+          <span class="mb-0 fw-bold">
             {{ post.user.username }}
           </span>
 
@@ -27,11 +27,11 @@
     </div>
 
     <!-- Image -->
-    {% if post.image %}
-      <div class="p-2 px-3">
-        <img class="img-fluid w-100" src="{{ post.image.url }}" />
-      </div>
-    {% endif %}
+    <div class="card-img-container">
+      {% if post.image %}
+        <img class="card-img-top-custom" src="{{ post.image.url }}" />
+      {% endif %}
+    </div>
 
     <!-- Footer -->
     <footer class="text-center py-2">

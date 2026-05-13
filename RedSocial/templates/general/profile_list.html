@@ -3,23 +3,51 @@
 {% block head_title %}Bielvenidos RedSocial{% endblock %}
 
 {% block page_content %}
-    <div class="container">
-        <h1>Perfiles</h1>
-        <div class="row">
+    <div class="container mt-4">
+        <h2 class="mb-4 fw-bold">Perfiles</h2>
+        <div class="row g-4"> <!-- Quitamos row-cols para manejarlo directo en el article -->
             {% for profile in profiles %}
-                <article class="col-12 col-sm-6 col-md-4 gap-3">
-                    <h4>{{ profile.user.username }}</h4>
-                    <p>Biografia: {{ profile.bio|default_if_none:"Sin rellenar" }}</p>
-                    <p>Fecha de nacimiento: {{ profile.birth_date|default_if_none:"Sin rellenar" }}</p>
-                    <p>
-                        {% if profile.profile_picture %}
-                            <img class="img-fluid" style="width: 200px;" src="{{ profile.profile_picture.url }}" alt="Imagen de perfil">
-                        {% else %}
-                            No dispone de foto de perfil
-                        {% endif %}
-                    </p>
-                    <p>Seguidores: {{ profile.followers.count}}</p>
-                    <p><a href="{% url 'profile_detail' profile.pk %}">Ver perfil</a></p>
+                <article class="col-12 col-sm-6 col-md-4">
+                    <div class="card h-100 shadow-sm border-0 text-center p-3">
+                        
+                        <!-- Contenedor de Imagen Circular -->
+                        <div class="profile-img-container mx-auto mt-2">
+                            {% if profile.profile_picture %}
+                                <img class="profile-card-img" src="{{ profile.profile_picture.url }}" alt="Imagen de {{ profile.user.username }}">
+                            {% else %}
+                                <!-- Un placeholder gris por si no tiene foto -->
+                                <div class="bg-light d-flex align-items-center justify-content-center h-100">
+                                    <i class="text-muted small">Sin foto</i>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="card-body">
+                            <h4 class="fw-bold h5 mb-1">{{ profile.user.username }}</h4>
+                            <p class="text-muted small mb-3">
+                                {{ profile.bio|default:"Sin biografía"|truncatechars:50 }}
+                            </p>
+                            
+                            <div class="d-flex justify-content-around border-top pt-3">
+                                <div class="text-center">
+                                    <span class="d-block fw-bold">{{ profile.followers.count }}</span>
+                                    <small class="text-muted">Seguidores</small>
+                                </div>
+                                <div class="text-center">
+                                    <span class="d-block fw-bold small text-truncate" style="max-width: 100px;">
+                                        {{ profile.birth_date|date:"d/m/Y"|default:"-" }}
+                                    </span>
+                                    <small class="text-muted">Nacido</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-footer bg-white border-0">
+                            <a href="{% url 'profile_detail' profile.pk %}" class="btn btn-secondary btn-sm w-100">
+                                Ver perfil
+                            </a>
+                        </div>
+                    </div>
                 </article>
             {% endfor %}
         </div>

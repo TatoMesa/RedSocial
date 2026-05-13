@@ -45,7 +45,7 @@
           <span>{{ post.likes.all.count }}</span>
 
           {% if request.user in post.likes.all %}
-            <i class="bi bi-heart-fill"></i>
+            <i class="bi bi-heart-fill text-danger"></i>
           {% else %}
             <i class="bi bi-heart"></i>
           {% endif %}
@@ -58,8 +58,7 @@
 
         <a
           href="{% url 'post_detail' post.pk %}"
-          class="btn btn-primary btn-sm">
-
+          class="btn btn-secondary btn-sm">
           Ver post
         </a>
 

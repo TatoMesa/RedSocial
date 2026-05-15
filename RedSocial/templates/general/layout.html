@@ -40,22 +40,26 @@
     <script>
         const likeButtons = document.querySelectorAll('.likeButton');
         likeButtons.forEach(likeButton => {
-            let nLikesSpan = likeButton.querySelector('span');
-            let nLikes = parseInt(nLikesSpan.innerHTML);
-            likeButton.addEventListener('click', (event) =>{
+            // Quitamos la lógica de nLikes de aquí afuera para que siempre 
+            // lea el número actual del span antes de actualizar
+            likeButton.addEventListener('click', (event) => {
                 event.preventDefault();
                 fetch(likeButton.href)
                     .then(response => response.json())
-                    .then(data =>{
-                        if (data.liked){
-                            nLikes +=1;
-                            likeButton.innerHTML = `<span>${nLikes}</span> <i class="bi bi-heart-fill"></i>`;
-                            
-                        }else{
-                            nLikes -=1;
-                            likeButton.innerHTML = `<span>${nLikes}</span> <i class="bi bi-heart"></i>`;
+                    .then(data => {
+                        // Usamos data.likes_count si tu backend lo envía, 
+                        // si no, mantenemos tu lógica de nLikes
+                        let currentLikes = data.likes_count !== undefined ? data.likes_count : parseInt(likeButton.querySelector('span').innerHTML);
+
+                        if (data.liked) {
+                            // AGREGAMOS text-danger aquí
+                            likeButton.innerHTML = `<span>${currentLikes}</span> <i class="bi bi-heart-fill text-danger"></i>`;
+                        } else {
+                            // Mantenemos bi-heart normal (negro)
+                            likeButton.innerHTML = `<span>${currentLikes}</span> <i class="bi bi-heart"></i>`;
                         }
-                    });
+                    })
+                    .catch(error => console.error('Error:', error));
             });
         });
     </script>
